@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List Landing Page</title>
+    <style>
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            padding: 40px 20px;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1.page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: #111827;
+        }
+
+        /* Platform Grid Wrapper untuk testing/melihat semua sekaligus */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- DESKTOP FRAME (1440px) --- */
+        .frame-desktop {
+            width: 1440px;
+            height: 900px;
+            background-color: #f8fafc; /* Warna BG 1 */
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .desktop-header {
+            width: 100%;
+            height: 80px;
+            padding: 0 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .desktop-logo {
+            font-size: 24px; /* Ukuran Font 1 */
+            font-weight: 800;
+            color: #2563eb; /* Warna 1 */
+        }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .desktop-btn {
+            background-color: #2563eb; /* Warna 1 */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px; /* Ukuran Font 2 */
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .desktop-hero {
+            display: flex;
+            padding: 100px 80px;
+            justify-content: space-between;
+            align-items: center;
+            height: calc(100% - 80px);
+        }
+
+        .desktop-content {
+            width: 50%;
+        }
+
+        .desktop-content h2 {
+            font-size: 48px; /* Ukuran Font 1 */
+            font-weight: 800;
+            line-height: 1.2;
+            color: #1e293b;
+            margin-bottom: 24px;
+        }
+
+        .desktop-content p {
+            font-size: 18px; /* Ukuran Font 2 */
+            color: #64748b;
+            margin-bottom: 40px;
+        }
+
+        .desktop-shapes {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        /* 3 Ikon/Shape Sederhana */
+        .shape-icon-1 { width: 40px; height: 40px; background-color: #3b82f6; border-radius: 8px; }
+        .shape-icon-2 { width: 40px; height: 40px; background-color: #10b981; border-radius: 50%; }
+        .shape-icon-3 { width: 40px; height: 40px; background-color: #f59e0b; border-radius: 4px; transform: rotate(45deg); }
+
+        /* Placeholder Banner Rectangle */
+        .desktop-image-placeholder {
+            width: 550px;
+            height: 400px;
+            background-color: #cbd5e1; /* Warna 2 */
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+
+        /* --- TABLET FRAME (768px) --- */
+        .frame-tablet {
+            width: 768px;
+            height: 1024px;
+            background-color: #f0fdf4; /* Warna BG 2 (Berbeda) */
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .tablet-header {
+            width: 100%;
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+        }
+
+        .tablet-logo {
+            font-size: 22px; /* Ukuran Font 1 */
+            font-weight: 800;
+            color: #10b981; /* Warna 3 */
+        }
+
+        .tablet-btn {
+            background-color: #10b981; /* Warna 3 */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px; /* Ukuran Font 2 */
+            text-decoration: none;
+        }
+
+        .tablet-hero {
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .tablet-hero h2 {
+            font-size: 36px; /* Ukuran Font 1 */
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .tablet-hero p {
+            font-size: 16px; /* Ukuran Font 2 */
+            color: #475569;
+            margin-bottom: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tablet-image-placeholder {
+            width: 100%;
+            height: 350px;
+            background-color: #cbd5e1; /* Warna 2 */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .tablet-shapes {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+
+        /* --- MOBILE FRAME (iPhone 14 Pro - 393px) --- */
+        .frame-mobile {
+            width: 393px;
+            height: 852px;
+            background-color: #fff7ed; /* Warna BG 3 (Berbeda) */
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .mobile-header {
+            width: 100%;
+            height: 60px;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+        }
+
+        .mobile-logo {
+            font-size: 18px; /* Ukuran Font 1 */
+            font-weight: 800;
+            color: #f97316;
+        }
+
+        .mobile-btn {
+            background-color: #f97316;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px; /* Ukuran Font 2 */
+            text-decoration: none;
+        }
+
+        .mobile-hero {
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 60px);
+        }
+
+        .mobile-hero h2 {
+            font-size: 28px; /* Ukuran Font 1 */
+            color: #1e293b;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .mobile-hero p {
+            font-size: 14px; /* Ukuran Font 2 */
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .mobile-image-placeholder {
+            width: 100%;
+            height: 220px;
+            background-color: #cbd5e1; /* Warna 2 */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .mobile-shapes {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: auto;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="page-title">Figma Design System To-Do List Landing Page</h1>
+        
+        <div class="platform-grid">
+            
+            <!-- SECTION DESKTOP -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">1. FRAME DESKTOP (1440 x 900)</h2>
+                <div class="frame-desktop" id="frame-desktop">
+                    <header class="desktop-header">
+                        <div class="desktop-logo">DoItNow.</div>
+                        <nav class="desktop-nav">
+                            <a href="#" class="desktop-btn">Sign Up</a>
+                        </nav>
+                    </header>
+                    <main class="desktop-hero">
+                        <div class="desktop-content">
+                            <h2>Kelola Tugas Harian Tanpa Ribet</h2>
+                            <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari. Mulai gratis sekarang!</p>
+                            <div class="desktop-shapes">
+                                <div class="shape-icon-1"></div>
+                                <div class="shape-icon-2"></div>
+                                <div class="shape-icon-3"></div>
+                            </div>
+                        </div>
+                        <div class="desktop-image-placeholder">
+                            [ Placeholder Gambar / Banner Utama ]
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <!-- SECTION TABLET -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">2. FRAME TABLET (768 x 1024)</h2>
+                <div class="frame-tablet" id="frame-tablet">
+                    <header class="tablet-header">
+                        <div class="tablet-logo">DoItNow.</div>
+                        <a href="#" class="tablet-btn">Sign Up</a>
+                    </header>
+                    <main class="tablet-hero">
+                        <h2>Kelola Tugas Harian Tanpa Ribet</h2>
+                        <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari.</p>
+                        <div class="tablet-image-placeholder">
+                            [ Placeholder Gambar / Banner Utama ]
+                        </div>
+                        <div class="tablet-shapes">
+                            <div class="shape-icon-1"></div>
+                            <div class="shape-icon-2"></div>
+                            <div class="shape-icon-3"></div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <!-- SECTION MOBILE -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">3. FRAME MOBILE (iPhone 14 Pro - 393 x 852)</h2>
+                <div class="frame-mobile" id="frame-mobile">
+                    <header class="mobile-header">
+                        <div class="mobile-logo">DoItNow.</div>
+                        <a href="#" class="mobile-btn">Sign Up</a>
+                    </header>
+                    <main class="mobile-hero">
+                        <h2>Kelola Tugas Harian Tanpa Ribet</h2>
+                        <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari.</p>
+                        <div class="mobile-image-placeholder">
+                            [ Placeholder Gambar / Banner ]
+                        </div>
+                        <div class="mobile-shapes">
+                            <div class="shape-icon-1"></div>
+                            <div class="shape-icon-2"></div>
+                            <div class="shape-icon-3"></div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
