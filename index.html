@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desain Desktop 1440×1024 — Referensi Figma</title>
+  <title>Desain Mobile 393×852 — Referensi Figma</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
@@ -32,43 +32,101 @@
       overflow: auto;
     }
 
-    .figma-canvas {
-      width: 1440px;
-      height: 1024px;
+    .phone-frame {
+      width: 393px;
+      height: 852px;
       flex-shrink: 0;
       position: relative;
-      border-radius: 8px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 40px 80px -20px rgba(0,0,0,0.5);
+      background: #000;
+      border-radius: 50px;
+      padding: 10px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 40px 80px -20px rgba(0,0,0,0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
     }
 
-    @media (max-width: 1500px) {
-      .figma-canvas { transform: scale(0.6); margin: -210px 0; }
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 42px;
+      overflow: hidden;
+      position: relative;
+      background: #fafaf9;
     }
-    @media (max-width: 920px) {
-      .figma-canvas { transform: scale(0.4); margin: -320px 0; }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 126px;
+      height: 36px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 50;
     }
-    @media (max-width: 620px) {
-      .figma-canvas { transform: scale(0.28); margin: -380px 0; }
+
+    /* Status Bar */
+    .status-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 54px;
+      z-index: 40;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 28px 6px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), transparent);
+    }
+    .status-bar.light-bar {
+      background: linear-gradient(to bottom, rgba(250,250,249,0.95), transparent);
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 100px;
+      z-index: 50;
+    }
+
+    /* Scale for small screens */
+    @media (max-height: 920px) {
+      .phone-frame { transform: scale(0.75); margin: -110px 0; }
+    }
+    @media (max-height: 680px) {
+      .phone-frame { transform: scale(0.55); margin: -200px 0; }
+    }
+    @media (max-width: 440px) {
+      .phone-frame { transform: scale(0.85); margin: -65px 0; }
+    }
+    @media (max-width: 360px) {
+      .phone-frame { transform: scale(0.7); margin: -130px 0; }
     }
 
     /* === LAYERS PANEL === */
     .layers-panel {
       position: absolute;
-      top: 12px; right: 12px; bottom: 12px;
+      top: 12px; right: -280px;
       width: 260px;
-      background: rgba(28,25,23,0.92);
+      background: rgba(28,25,23,0.95);
       backdrop-filter: blur(20px);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.08);
-      z-index: 100;
+      z-index: 200;
       overflow-y: auto;
       padding: 16px 0;
-      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      transition: right 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
     }
-    .layers-panel.hidden-panel {
-      transform: translateX(280px);
-      opacity: 0;
-      pointer-events: none;
+    .layers-panel.show {
+      right: 12px;
     }
     .layers-panel::-webkit-scrollbar { width: 4px; }
     .layers-panel::-webkit-scrollbar-thumb { background: #44403c; border-radius: 4px; }
@@ -98,12 +156,11 @@
       display: flex; align-items: center; justify-content: space-between;
     }
 
-    /* Toggle button */
     .toggle-layers {
       position: absolute;
-      top: 20px; right: 20px;
-      z-index: 200;
-      width: 40px; height: 40px;
+      top: 16px; right: 16px;
+      z-index: 300;
+      width: 38px; height: 38px;
       background: rgba(28,25,23,0.85);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.1);
@@ -115,76 +172,237 @@
     }
     .toggle-layers:hover { background: rgba(28,25,23,1); color: #f5f5f4; }
 
-    /* === SPESIFIKASI BADGE === */
     .spec-badge {
       position: absolute;
-      bottom: 16px; left: 16px;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
       z-index: 200;
       background: rgba(28,25,23,0.85);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 10px;
-      padding: 10px 16px;
-      display: flex; align-items: center; gap: 12px;
+      padding: 8px 16px;
+      display: flex; align-items: center; gap: 10px;
+      white-space: nowrap;
     }
 
-    /* Banner pattern */
-    .banner-pattern {
-      background-image:
-        radial-gradient(circle at 20% 50%, rgba(185,28,28,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(37,99,235,0.06) 0%, transparent 50%),
-        radial-gradient(circle at 60% 80%, rgba(185,28,28,0.05) 0%, transparent 50%);
+    /* Banner gradient for mobile */
+    .mobile-banner-bg {
+      background: linear-gradient(135deg, #1c1917 0%, #292524 40%, #1c1917 100%);
     }
-    .grid-dots {
-      background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
-      background-size: 24px 24px;
+    .mobile-dots {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 16px 16px;
     }
   </style>
 </head>
 <body>
 
-<!-- ======================== FRAME 1440 × 1024 ======================== -->
-<div class="figma-canvas" id="mainFrame">
+<div style="position: relative;">
+
+  <!-- ======== PHONE FRAME ======== -->
+  <div class="phone-frame">
+
+    <!-- Dynamic Island -->
+    <div class="dynamic-island"></div>
+
+    <!-- Screen -->
+    <div class="phone-screen" id="mobileScreen">
+
+      <!-- Status Bar (dark — over banner) -->
+      <div class="status-bar" id="statusBar">
+        <span style="font-size:14px; font-weight:600; color:#ffffff;">9:41</span>
+        <div style="display:flex; gap:5px; align-items:center;">
+          <i data-lucide="signal" style="width:14px; height:14px; color:#ffffff;"></i>
+          <i data-lucide="wifi" style="width:14px; height:14px; color:#ffffff;"></i>
+          <i data-lucide="battery-full" style="width:18px; height:14px; color:#ffffff;"></i>
+        </div>
+      </div>
+
+      <!-- ======== SCROLLABLE CONTENT ======== -->
+      <div style="height:100%; overflow-y:auto; scroll-behavior:smooth;" id="scrollContent">
+
+        <!-- ===== BANNER SECTION (Top) ===== -->
+        <div class="mobile-banner-bg" style="position:relative; padding: 64px 24px 32px; overflow:hidden;">
+          <!-- Dot pattern -->
+          <div class="mobile-dots" style="position:absolute; inset:0; opacity:0.6;"></div>
+          <!-- Red glow -->
+          <div style="position:absolute; width:200px; height:200px; background:radial-gradient(circle, rgba(185,28,28,0.25) 0%, transparent 70%); top:-30px; right:-40px;"></div>
+          <div style="position:absolute; width:150px; height:150px; background:radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%); bottom:-20px; left:-30px;"></div>
+
+          <div style="position:relative; z-index:10;">
+            <!-- App Name -->
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:28px;">
+              <div style="width:32px; height:32px; background:#b91c1c; border-radius:9px; display:flex; align-items:center; justify-content:center;">
+                <i data-lucide="figma" style="width:15px; height:15px; color:#fff;"></i>
+              </div>
+              <span style="font-size:17px; font-weight:700; color:#f5f5f4; letter-spacing:-0.02em;">DesignFlow</span>
+            </div>
+
+            <!-- Heading — Font Size 1: 28px -->
+            <h1 style="font-family:'Playfair Display',serif; font-size:28px; font-weight:400; color:#f5f5f4; line-height:1.2; margin-bottom:10px;">
+              Wujudkan Ide<br><span style="color:#ef4444; font-style:italic;">Menjadi</span> Desain
+            </h1>
+
+            <!-- Subheading — Font Size 2: 13px -->
+            <p style="font-size:13px; color:#a8a29e; line-height:1.6; margin-bottom:24px;">
+              Platform kolaborasi desain interface real-time.
+            </p>
+
+            <!-- 3 Ikon -->
+            <div style="display:flex; gap:10px;">
+              <!-- Ikon 1 -->
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 8px;">
+                <div style="width:34px; height:34px; background:rgba(185,28,28,0.15); border-radius:9px; display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="pen-tool" style="width:15px; height:15px; color:#ef4444;"></i>
+                </div>
+                <span style="font-size:10px; font-weight:600; color:#d6d3d1;">Vector</span>
+              </div>
+              <!-- Ikon 2 -->
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 8px;">
+                <div style="width:34px; height:34px; background:rgba(37,99,235,0.15); border-radius:9px; display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="users" style="width:15px; height:15px; color:#60a5fa;"></i>
+                </div>
+                <span style="font-size:10px; font-weight:600; color:#d6d3d1;">Kolaborasi</span>
+              </div>
+              <!-- Ikon 3 -->
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px 8px;">
+                <div style="width:34px; height:34px; background:rgba(22,163,74,0.15); border-radius:9px; display:flex; align-items:center; justify-content:center;">
+                  <i data-lucide="zap" style="width:15px; height:15px; color:#4ade80;"></i>
+                </div>
+                <span style="font-size:10px; font-weight:600; color:#d6d3d1;">Prototyping</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decorative -->
+          <div style="position:absolute; bottom:12px; right:16px; width:60px; height:60px; border:1px solid rgba(255,255,255,0.05); border-radius:14px; transform:rotate(12deg);"></div>
+        </div>
+
+        <!-- ===== FORM SECTION (Bottom) ===== -->
+        <div style="padding:28px 24px 40px; background:#fafaf9;">
+
+          <!-- Welcome -->
+          <h2 style="font-family:'Playfair Display',serif; font-size:24px; font-weight:400; color:#1c1917; margin-bottom:6px;">
+            Selamat Datang
+          </h2>
+          <p style="font-size:13px; color:#78716c; margin-bottom:28px;">
+            Masuk ke akun kamu untuk melanjutkan
+          </p>
+
+          <!-- Email -->
+          <div style="margin-bottom:16px;">
+            <label style="display:block; font-size:11px; font-weight:600; color:#57534e; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.05em;">Email</label>
+            <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:11px 14px;">
+              <i data-lucide="mail" style="width:15px; height:15px; color:#a8a29e; flex-shrink:0;"></i>
+              <span style="font-size:13px; color:#a8a29e;">nama@email.com</span>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div style="margin-bottom:18px;">
+            <label style="display:block; font-size:11px; font-weight:600; color:#57534e; margin-bottom:5px; text-transform:uppercase; letter-spacing:0.05em;">Password</label>
+            <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:11px 14px;">
+              <i data-lucide="lock" style="width:15px; height:15px; color:#a8a29e; flex-shrink:0;"></i>
+              <span style="font-size:13px; color:#a8a29e;">••••••••</span>
+              <i data-lucide="eye-off" style="width:15px; height:15px; color:#a8a29e; margin-left:auto; cursor:pointer; flex-shrink:0;"></i>
+            </div>
+          </div>
+
+          <!-- Remember + Forgot -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <div style="width:16px; height:16px; border:2px #d6d3d1 solid; border-radius:4px;"></div>
+              <span style="font-size:12px; color:#78716c;">Ingat saya</span>
+            </label>
+            <a href="#" style="font-size:12px; color:#b91c1c; text-decoration:none; font-weight:500;">Lupa password?</a>
+          </div>
+
+          <!-- Tombol LOGIN — Warna 1 -->
+          <button style="width:100%; padding:13px; background:#b91c1c; color:#ffffff; font-size:14px; font-weight:600; border:none; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 8px 20px -4px rgba(185,28,28,0.3); margin-bottom:12px;">
+            <i data-lucide="log-in" style="width:15px; height:15px;"></i>
+            Masuk / Login
+          </button>
+
+          <!-- Tombol REGISTER — Outline -->
+          <button style="width:100%; padding:13px; background:transparent; color:#1c1917; font-size:14px; font-weight:600; border:2px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:28px;">
+            <i data-lucide="user-plus" style="width:15px; height:15px;"></i>
+            Daftar / Register
+          </button>
+
+          <!-- Divider -->
+          <div style="display:flex; align-items:center; gap:14px; margin-bottom:22px;">
+            <div style="flex:1; height:1px; background:#e7e5e4;"></div>
+            <span style="font-size:11px; color:#a8a29e; text-transform:uppercase; letter-spacing:0.08em;">atau</span>
+            <div style="flex:1; height:1px; background:#e7e5e4;"></div>
+          </div>
+
+          <!-- Social -->
+          <div style="display:flex; gap:10px; margin-bottom:24px;">
+            <button style="flex:1; padding:11px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;">
+              <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              <span style="font-size:12px; font-weight:500; color:#57534e;">Google</span>
+            </button>
+            <button style="flex:1; padding:11px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:7px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#1c1917"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              <span style="font-size:12px; font-weight:500; color:#57534e;">GitHub</span>
+            </button>
+          </div>
+
+          <!-- Footer -->
+          <p style="text-align:center; font-size:11px; color:#a8a29e;">
+            © 2025 DesignFlow
+          </p>
+        </div>
+      </div>
+
+      <!-- Home Indicator -->
+      <div class="home-indicator"></div>
+    </div>
+  </div>
 
   <!-- ======== LAYERS PANEL ======== -->
   <div class="layers-panel" id="layersPanel">
     <div class="layer-header">
       <span>Layers</span>
-      <span style="font-weight:400; letter-spacing:0; text-transform:none; font-size:10px; color:#78716c;">14 items</span>
+      <span style="font-weight:400; letter-spacing:0; text-transform:none; font-size:10px; color:#78716c;">16 items</span>
     </div>
 
-    <!-- Desktop Frame -->
     <div class="layer-item active">
       <div class="dot" style="background:#57534e"></div>
-      <span style="color:#d6d3d1; font-weight:500;">🖥 Desktop Frame — 1440×1024</span>
+      <span style="color:#d6d3d1; font-weight:500;">📱 Mobile Frame — 393×852</span>
     </div>
 
-    <!-- Background -->
+    <!-- Status Bar -->
     <div class="layer-group">
       <div class="layer-item">
-        <div class="dot" style="background:#f5f5f4"></div>
-        <span>BG / Background Putih</span>
+        <div class="dot" style="background:#000000"></div>
+        <span>Status Bar / Time + Icons</span>
       </div>
     </div>
 
-    <!-- Left Banner -->
+    <!-- Banner -->
     <div class="layer-group">
       <div class="layer-item">
         <div class="dot" style="background:#1c1917"></div>
-        <span style="color:#d6d3d1; font-weight:500;">📌 Banner Section (Left)</span>
+        <span style="color:#d6d3d1; font-weight:500;">📌 Banner Section (Top)</span>
       </div>
       <div class="layer-group-2">
         <div class="layer-item">
           <div class="dot" style="background:#1c1917"></div>
-          <span>Banner BG / Dark Rectangle</span>
+          <span>Banner BG / Dark Gradient</span>
         </div>
         <div class="layer-item">
           <div class="dot" style="background:#44403c"></div>
-          <span>Pattern / Grid Dots</span>
+          <span>Pattern / Dot Grid</span>
         </div>
         <div class="layer-item">
           <div class="dot" style="background:#b91c1c"></div>
           <span>Glow / Red Accent</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#b91c1c"></div>
+          <span>Logo / App Name</span>
         </div>
         <div class="layer-item">
           <div class="dot" style="background:#f5f5f4"></div>
@@ -192,26 +410,26 @@
         </div>
         <div class="layer-item">
           <div class="dot" style="background:#a8a29e"></div>
-          <span>Text / Subheading Banner</span>
+          <span>Text / Subheading</span>
         </div>
         <div class="layer-item">
           <div class="dot" style="background:#78716c"></div>
           <span>Icon Group / 3 Ikon</span>
         </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#44403c"></div>
+          <span>Decorative / Square</span>
+        </div>
       </div>
     </div>
 
-    <!-- Right Form -->
+    <!-- Form -->
     <div class="layer-group">
       <div class="layer-item">
         <div class="dot" style="background:#fafaf9"></div>
-        <span style="color:#d6d3d1; font-weight:500;">📝 Form Section (Right)</span>
+        <span style="color:#d6d3d1; font-weight:500;">📝 Form Section (Bottom)</span>
       </div>
       <div class="layer-group-2">
-        <div class="layer-item">
-          <div class="dot" style="background:#b91c1c"></div>
-          <span>Logo / App Name</span>
-        </div>
         <div class="layer-item">
           <div class="dot" style="background:#1c1917"></div>
           <span>Text / "Selamat Datang"</span>
@@ -232,188 +450,40 @@
           <div class="dot" style="background:#f5f5f4"></div>
           <span>Button / Register (Outline)</span>
         </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#e7e5e4"></div>
+          <span>Social / Google + GitHub</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- System UI -->
+    <div class="layer-group">
+      <div class="layer-item">
+        <div class="dot" style="background:#000000"></div>
+        <span>Dynamic Island</span>
+      </div>
+      <div class="layer-item">
+        <div class="dot" style="background:#44403c"></div>
+        <span>Home Indicator</span>
       </div>
     </div>
   </div>
 
-  <!-- Toggle Layers Button -->
+  <!-- Toggle Layers -->
   <button class="toggle-layers" onclick="toggleLayers()" title="Toggle Layers">
     <i data-lucide="layers" class="w-4 h-4"></i>
   </button>
 
-  <!-- ======== DESAIN UTAMA ======== -->
-  <div style="width:100%; height:100%; display:flex; background:#ffffff;">
-
-    <!-- ====== KIRI: BANNER (60%) ====== -->
-    <div style="width:60%; height:100%; background:#0c0a09; position:relative; overflow:hidden;">
-
-      <!-- Banner BG Pattern -->
-      <div class="grid-dots" style="position:absolute; inset:0; opacity:0.5;"></div>
-
-      <!-- Red glow -->
-      <div style="position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(185,28,28,0.2) 0%, transparent 70%); top:10%; left:20%;"></div>
-      <div style="position:absolute; width:300px; height:300px; background:radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%); bottom:15%; right:10%;"></div>
-
-      <!-- Content Banner -->
-      <div style="position:relative; z-index:10; height:100%; display:flex; flex-direction:column; justify-content:center; padding: 60px 70px;">
-
-        <!-- Label kecil -->
-        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(185,28,28,0.15); border:1px solid rgba(185,28,28,0.25); border-radius:100px; padding:6px 16px; margin-bottom:32px; width:fit-content;">
-          <div style="width:6px; height:6px; background:#ef4444; border-radius:50%;"></div>
-          <span style="font-size:12px; font-weight:600; color:#fca5a5; letter-spacing:0.05em;">PLATFORM DESAIN #1</span>
-        </div>
-
-        <!-- Heading besar — Font Size 1: 48px -->
-        <h1 style="font-family:'Playfair Display',serif; font-size:48px; font-weight:400; color:#f5f5f4; line-height:1.15; margin-bottom:20px; max-width:520px;">
-          Wujudkan Ide<br>
-          <span style="color:#ef4444; font-style:italic;">Menjadi</span> Desain
-        </h1>
-
-        <!-- Subheading — Font Size 2: 16px -->
-        <p style="font-size:16px; color:#a8a29e; line-height:1.7; max-width:420px; margin-bottom:48px;">
-          Buat, kolaborasi, dan kembangkan desain interface secara real-time dengan tim kamu.
-        </p>
-
-        <!-- 3 Ikon Feature -->
-        <div style="display:flex; gap:20px;">
-          <!-- Ikon 1 -->
-          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
-            <div style="width:40px; height:40px; background:rgba(185,28,28,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
-              <i data-lucide="pen-tool" style="width:18px; height:18px; color:#ef4444;"></i>
-            </div>
-            <div>
-              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Vector Tools</p>
-              <p style="font-size:11px; color:#78716c; margin-top:2px;">Presisi tinggi</p>
-            </div>
-          </div>
-
-          <!-- Ikon 2 -->
-          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
-            <div style="width:40px; height:40px; background:rgba(37,99,235,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
-              <i data-lucide="users" style="width:18px; height:18px; color:#60a5fa;"></i>
-            </div>
-            <div>
-              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Kolaborasi</p>
-              <p style="font-size:11px; color:#78716c; margin-top:2px;">Real-time sync</p>
-            </div>
-          </div>
-
-          <!-- Ikon 3 -->
-          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
-            <div style="width:40px; height:40px; background:rgba(22,163,74,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
-              <i data-lucide="zap" style="width:18px; height:18px; color:#4ade80;"></i>
-            </div>
-            <div>
-              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Prototyping</p>
-              <p style="font-size:11px; color:#78716c; margin-top:2px;">Interaktif cepat</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Decorative geometric -->
-      <div style="position:absolute; bottom:40px; right:40px; width:120px; height:120px; border:1px solid rgba(255,255,255,0.06); border-radius:20px; transform:rotate(15deg);"></div>
-      <div style="position:absolute; bottom:70px; right:80px; width:80px; height:80px; border:1px solid rgba(185,28,28,0.15); border-radius:16px; transform:rotate(-10deg);"></div>
-    </div>
-
-    <!-- ====== KANAN: FORM (40%) ====== -->
-    <div style="width:40%; height:100%; background:#fafaf9; display:flex; flex-direction:column; justify-content:center; padding:60px 56px; position:relative;">
-
-      <!-- Subtle top accent line -->
-      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right, #b91c1c, #ef4444, #f87171);"></div>
-
-      <!-- App Name / Logo -->
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:48px;">
-        <div style="width:36px; height:36px; background:#b91c1c; border-radius:10px; display:flex; align-items:center; justify-content:center;">
-          <i data-lucide="figma" style="width:18px; height:18px; color:#ffffff;"></i>
-        </div>
-        <span style="font-size:20px; font-weight:700; color:#1c1917; letter-spacing:-0.02em;">DesignFlow</span>
-      </div>
-
-      <!-- Heading -->
-      <h2 style="font-family:'Playfair Display',serif; font-size:32px; font-weight:400; color:#1c1917; margin-bottom:8px;">
-        Selamat Datang
-      </h2>
-      <p style="font-size:14px; color:#78716c; margin-bottom:36px;">
-        Masuk ke akun kamu untuk melanjutkan
-      </p>
-
-      <!-- Email Input -->
-      <div style="margin-bottom:18px;">
-        <label style="display:block; font-size:12px; font-weight:600; color:#57534e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Email</label>
-        <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:12px 16px; transition:border-color 0.2s;" onfocus="this.style.borderColor='#b91c1c'" onblur="this.style.borderColor='#e7e5e4'">
-          <i data-lucide="mail" style="width:16px; height:16px; color:#a8a29e; flex-shrink:0;"></i>
-          <span style="font-size:14px; color:#a8a29e;">nama@email.com</span>
-        </div>
-      </div>
-
-      <!-- Password Input -->
-      <div style="margin-bottom:24px;">
-        <label style="display:block; font-size:12px; font-weight:600; color:#57534e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Password</label>
-        <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:12px 16px;">
-          <i data-lucide="lock" style="width:16px; height:16px; color:#a8a29e; flex-shrink:0;"></i>
-          <span style="font-size:14px; color:#a8a29e;">••••••••</span>
-          <i data-lucide="eye-off" style="width:16px; height:16px; color:#a8a29e; margin-left:auto; cursor:pointer; flex-shrink:0;"></i>
-        </div>
-      </div>
-
-      <!-- Remember + Forgot -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
-        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-          <div style="width:18px; height:18px; border:2px #d6d3d1 solid; border-radius:5px; display:flex; align-items:center; justify-content:center;">
-          </div>
-          <span style="font-size:13px; color:#78716c;">Ingat saya</span>
-        </label>
-        <a href="#" style="font-size:13px; color:#b91c1c; text-decoration:none; font-weight:500;">Lupa password?</a>
-      </div>
-
-      <!-- Tombol LOGIN — Warna 1: Merah -->
-      <button style="width:100%; padding:14px; background:#b91c1c; color:#ffffff; font-size:14px; font-weight:600; border:none; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 10px 25px -5px rgba(185,28,28,0.3); transition:all 0.2s; margin-bottom:14px;" onmouseover="this.style.background='#991b1b'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#b91c1c'; this.style.transform='translateY(0)'">
-        <i data-lucide="log-in" style="width:16px; height:16px;"></i>
-        Masuk / Login
-      </button>
-
-      <!-- Tombol REGISTER — Outline -->
-      <button style="width:100%; padding:14px; background:transparent; color:#1c1917; font-size:14px; font-weight:600; border:2px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s; margin-bottom:36px;" onmouseover="this.style.borderColor='#b91c1c'; this.style.color='#b91c1c'" onmouseout="this.style.borderColor='#e7e5e4'; this.style.color='#1c1917'">
-        <i data-lucide="user-plus" style="width:16px; height:16px;"></i>
-        Daftar / Register
-      </button>
-
-      <!-- Divider -->
-      <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
-        <div style="flex:1; height:1px; background:#e7e5e4;"></div>
-        <span style="font-size:12px; color:#a8a29e; text-transform:uppercase; letter-spacing:0.08em;">atau</span>
-        <div style="flex:1; height:1px; background:#e7e5e4;"></div>
-      </div>
-
-      <!-- Social login -->
-      <div style="display:flex; gap:12px;">
-        <button style="flex:1; padding:12px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#d6d3d1'" onmouseout="this.style.borderColor='#e7e5e4'">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-          <span style="font-size:13px; font-weight:500; color:#57534e;">Google</span>
-        </button>
-        <button style="flex:1; padding:12px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#d6d3d1'" onmouseout="this.style.borderColor='#e7e5e4'">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1c1917"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-          <span style="font-size:13px; font-weight:500; color:#57534e;">GitHub</span>
-        </button>
-      </div>
-
-      <!-- Footer text -->
-      <p style="text-align:center; font-size:12px; color:#a8a29e; margin-top:auto; padding-top:32px;">
-        © 2025 DesignFlow. Semua hak dilindungi.
-      </p>
-    </div>
-  </div>
-
-  <!-- Spesifikasi Badge -->
+  <!-- Spec Badge -->
   <div class="spec-badge">
-    <div style="display:flex; align-items:center; gap:6px;">
-      <div style="width:8px; height:8px; background:#b91c1c; border-radius:3px;"></div>
-      <span style="font-size:11px; font-weight:600; color:#d6d3d1; font-family:monospace;">1440 × 1024</span>
+    <div style="display:flex; align-items:center; gap:5px;">
+      <div style="width:7px; height:7px; background:#b91c1c; border-radius:3px;"></div>
+      <span style="font-size:11px; font-weight:600; color:#d6d3d1; font-family:monospace;">393 × 852</span>
     </div>
-    <div style="width:1px; height:16px; background:rgba(255,255,255,0.1);"></div>
-    <span style="font-size:11px; color:#78716c;">Desktop Frame</span>
-    <div style="width:1px; height:16px; background:rgba(255,255,255,0.1);"></div>
+    <div style="width:1px; height:14px; background:rgba(255,255,255,0.1);"></div>
+    <span style="font-size:11px; color:#78716c;">iPhone 14 Pro</span>
+    <div style="width:1px; height:14px; background:rgba(255,255,255,0.1);"></div>
     <span style="font-size:11px; color:#78716c;">3 Warna · 2 Font · 3 Ikon</span>
   </div>
 
@@ -423,9 +493,27 @@
   lucide.createIcons();
 
   function toggleLayers() {
-    const panel = document.getElementById('layersPanel');
-    panel.classList.toggle('hidden-panel');
+    document.getElementById('layersPanel').classList.toggle('show');
   }
+
+  // Update status bar color on scroll
+  const scrollContent = document.getElementById('scrollContent');
+  const statusBar = document.getElementById('statusBar');
+
+  scrollContent.addEventListener('scroll', () => {
+    const scrollY = scrollContent.scrollTop;
+    if (scrollY > 200) {
+      statusBar.style.background = 'linear-gradient(to bottom, rgba(250,250,249,0.95), transparent)';
+      statusBar.querySelectorAll('span, svg').forEach(el => {
+        el.style.color = '#1c1917';
+      });
+    } else {
+      statusBar.style.background = 'linear-gradient(to bottom, rgba(0,0,0,0.3), transparent)';
+      statusBar.querySelectorAll('span, svg').forEach(el => {
+        el.style.color = '#ffffff';
+      });
+    }
+  });
 </script>
 
 </body>
