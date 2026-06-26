@@ -1,389 +1,432 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List Landing Page</title>
-    <style>
-        /* Reset & Base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desain Desktop 1440×1024 — Referensi Figma</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          }
         }
+      }
+    }
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1c1917;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      font-family: 'Inter', sans-serif;
+      overflow: auto;
+    }
 
-        body {
-            background-color: #f3f4f6;
-            padding: 40px 20px;
-            color: #1f2937;
-        }
+    .figma-canvas {
+      width: 1440px;
+      height: 1024px;
+      flex-shrink: 0;
+      position: relative;
+      border-radius: 8px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 40px 80px -20px rgba(0,0,0,0.5);
+    }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+    @media (max-width: 1500px) {
+      .figma-canvas { transform: scale(0.6); margin: -210px 0; }
+    }
+    @media (max-width: 920px) {
+      .figma-canvas { transform: scale(0.4); margin: -320px 0; }
+    }
+    @media (max-width: 620px) {
+      .figma-canvas { transform: scale(0.28); margin: -380px 0; }
+    }
 
-        h1.page-title {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 24px;
-            color: #111827;
-        }
+    /* === LAYERS PANEL === */
+    .layers-panel {
+      position: absolute;
+      top: 12px; right: 12px; bottom: 12px;
+      width: 260px;
+      background: rgba(28,25,23,0.92);
+      backdrop-filter: blur(20px);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      z-index: 100;
+      overflow-y: auto;
+      padding: 16px 0;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+    }
+    .layers-panel.hidden-panel {
+      transform: translateX(280px);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .layers-panel::-webkit-scrollbar { width: 4px; }
+    .layers-panel::-webkit-scrollbar-thumb { background: #44403c; border-radius: 4px; }
 
-        /* Platform Grid Wrapper untuk testing/melihat semua sekaligus */
-        .platform-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 50px;
-            align-items: start;
-        }
+    .layer-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 5px 16px;
+      font-size: 11px;
+      color: #a8a29e;
+      cursor: default;
+      transition: background 0.15s;
+    }
+    .layer-item:hover { background: rgba(255,255,255,0.04); }
+    .layer-item.active { background: rgba(185,28,28,0.15); color: #fca5a5; }
+    .layer-item .dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
+    .layer-group { padding-left: 20px; }
+    .layer-group-2 { padding-left: 40px; }
+    .layer-group-3 { padding-left: 60px; }
 
-        @media (min-width: 1024px) {
-            .platform-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    .layer-header {
+      padding: 8px 16px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #57534e;
+      display: flex; align-items: center; justify-content: space-between;
+    }
 
-        /* --- DESKTOP FRAME (1440px) --- */
-        .frame-desktop {
-            width: 1440px;
-            height: 900px;
-            background-color: #f8fafc; /* Warna BG 1 */
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
+    /* Toggle button */
+    .toggle-layers {
+      position: absolute;
+      top: 20px; right: 20px;
+      z-index: 200;
+      width: 40px; height: 40px;
+      background: rgba(28,25,23,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #a8a29e;
+    }
+    .toggle-layers:hover { background: rgba(28,25,23,1); color: #f5f5f4; }
 
-        .desktop-header {
-            width: 100%;
-            height: 80px;
-            padding: 0 80px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ffffff;
-            border-bottom: 1px solid #edf2f7;
-        }
+    /* === SPESIFIKASI BADGE === */
+    .spec-badge {
+      position: absolute;
+      bottom: 16px; left: 16px;
+      z-index: 200;
+      background: rgba(28,25,23,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
 
-        .desktop-logo {
-            font-size: 24px; /* Ukuran Font 1 */
-            font-weight: 800;
-            color: #2563eb; /* Warna 1 */
-        }
-
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
-        .desktop-btn {
-            background-color: #2563eb; /* Warna 1 */
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 14px; /* Ukuran Font 2 */
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .desktop-hero {
-            display: flex;
-            padding: 100px 80px;
-            justify-content: space-between;
-            align-items: center;
-            height: calc(100% - 80px);
-        }
-
-        .desktop-content {
-            width: 50%;
-        }
-
-        .desktop-content h2 {
-            font-size: 48px; /* Ukuran Font 1 */
-            font-weight: 800;
-            line-height: 1.2;
-            color: #1e293b;
-            margin-bottom: 24px;
-        }
-
-        .desktop-content p {
-            font-size: 18px; /* Ukuran Font 2 */
-            color: #64748b;
-            margin-bottom: 40px;
-        }
-
-        .desktop-shapes {
-            display: flex;
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        /* 3 Ikon/Shape Sederhana */
-        .shape-icon-1 { width: 40px; height: 40px; background-color: #3b82f6; border-radius: 8px; }
-        .shape-icon-2 { width: 40px; height: 40px; background-color: #10b981; border-radius: 50%; }
-        .shape-icon-3 { width: 40px; height: 40px; background-color: #f59e0b; border-radius: 4px; transform: rotate(45deg); }
-
-        /* Placeholder Banner Rectangle */
-        .desktop-image-placeholder {
-            width: 550px;
-            height: 400px;
-            background-color: #cbd5e1; /* Warna 2 */
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #475569;
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-
-        /* --- TABLET FRAME (768px) --- */
-        .frame-tablet {
-            width: 768px;
-            height: 1024px;
-            background-color: #f0fdf4; /* Warna BG 2 (Berbeda) */
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
-
-        .tablet-header {
-            width: 100%;
-            height: 70px;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ffffff;
-        }
-
-        .tablet-logo {
-            font-size: 22px; /* Ukuran Font 1 */
-            font-weight: 800;
-            color: #10b981; /* Warna 3 */
-        }
-
-        .tablet-btn {
-            background-color: #10b981; /* Warna 3 */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px; /* Ukuran Font 2 */
-            text-decoration: none;
-        }
-
-        .tablet-hero {
-            padding: 60px 40px;
-            text-align: center;
-        }
-
-        .tablet-hero h2 {
-            font-size: 36px; /* Ukuran Font 1 */
-            color: #0f172a;
-            margin-bottom: 16px;
-        }
-
-        .tablet-hero p {
-            font-size: 16px; /* Ukuran Font 2 */
-            color: #475569;
-            margin-bottom: 40px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .tablet-image-placeholder {
-            width: 100%;
-            height: 350px;
-            background-color: #cbd5e1; /* Warna 2 */
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #475569;
-            font-weight: 600;
-            margin-bottom: 40px;
-        }
-
-        .tablet-shapes {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-        }
-
-
-        /* --- MOBILE FRAME (iPhone 14 Pro - 393px) --- */
-        .frame-mobile {
-            width: 393px;
-            height: 852px;
-            background-color: #fff7ed; /* Warna BG 3 (Berbeda) */
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
-
-        .mobile-header {
-            width: 100%;
-            height: 60px;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ffffff;
-        }
-
-        .mobile-logo {
-            font-size: 18px; /* Ukuran Font 1 */
-            font-weight: 800;
-            color: #f97316;
-        }
-
-        .mobile-btn {
-            background-color: #f97316;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 12px; /* Ukuran Font 2 */
-            text-decoration: none;
-        }
-
-        .mobile-hero {
-            padding: 40px 24px;
-            display: flex;
-            flex-direction: column;
-            height: calc(100% - 60px);
-        }
-
-        .mobile-hero h2 {
-            font-size: 28px; /* Ukuran Font 1 */
-            color: #1e293b;
-            margin-bottom: 12px;
-            line-height: 1.3;
-        }
-
-        .mobile-hero p {
-            font-size: 14px; /* Ukuran Font 2 */
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-
-        .mobile-image-placeholder {
-            width: 100%;
-            height: 220px;
-            background-color: #cbd5e1; /* Warna 2 */
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #475569;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        .mobile-shapes {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-top: auto;
-            padding-bottom: 20px;
-        }
-    </style>
+    /* Banner pattern */
+    .banner-pattern {
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(185,28,28,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(37,99,235,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 60% 80%, rgba(185,28,28,0.05) 0%, transparent 50%);
+    }
+    .grid-dots {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1 class="page-title">Figma Design System To-Do List Landing Page</h1>
-        
-        <div class="platform-grid">
-            
-            <!-- SECTION DESKTOP -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">1. FRAME DESKTOP (1440 x 900)</h2>
-                <div class="frame-desktop" id="frame-desktop">
-                    <header class="desktop-header">
-                        <div class="desktop-logo">DoItNow.</div>
-                        <nav class="desktop-nav">
-                            <a href="#" class="desktop-btn">Sign Up</a>
-                        </nav>
-                    </header>
-                    <main class="desktop-hero">
-                        <div class="desktop-content">
-                            <h2>Kelola Tugas Harian Tanpa Ribet</h2>
-                            <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari. Mulai gratis sekarang!</p>
-                            <div class="desktop-shapes">
-                                <div class="shape-icon-1"></div>
-                                <div class="shape-icon-2"></div>
-                                <div class="shape-icon-3"></div>
-                            </div>
-                        </div>
-                        <div class="desktop-image-placeholder">
-                            [ Placeholder Gambar / Banner Utama ]
-                        </div>
-                    </main>
-                </div>
-            </div>
+<!-- ======================== FRAME 1440 × 1024 ======================== -->
+<div class="figma-canvas" id="mainFrame">
 
-            <!-- SECTION TABLET -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">2. FRAME TABLET (768 x 1024)</h2>
-                <div class="frame-tablet" id="frame-tablet">
-                    <header class="tablet-header">
-                        <div class="tablet-logo">DoItNow.</div>
-                        <a href="#" class="tablet-btn">Sign Up</a>
-                    </header>
-                    <main class="tablet-hero">
-                        <h2>Kelola Tugas Harian Tanpa Ribet</h2>
-                        <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari.</p>
-                        <div class="tablet-image-placeholder">
-                            [ Placeholder Gambar / Banner Utama ]
-                        </div>
-                        <div class="tablet-shapes">
-                            <div class="shape-icon-1"></div>
-                            <div class="shape-icon-2"></div>
-                            <div class="shape-icon-3"></div>
-                        </div>
-                    </main>
-                </div>
-            </div>
-
-            <!-- SECTION MOBILE -->
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 style="margin-bottom: 10px; font-size: 18px; color: #4b5563;">3. FRAME MOBILE (iPhone 14 Pro - 393 x 852)</h2>
-                <div class="frame-mobile" id="frame-mobile">
-                    <header class="mobile-header">
-                        <div class="mobile-logo">DoItNow.</div>
-                        <a href="#" class="mobile-btn">Sign Up</a>
-                    </header>
-                    <main class="mobile-hero">
-                        <h2>Kelola Tugas Harian Tanpa Ribet</h2>
-                        <p>Aplikasi to-do list modern yang bantu kamu tetap produktif, fokus, dan teratur setiap hari.</p>
-                        <div class="mobile-image-placeholder">
-                            [ Placeholder Gambar / Banner ]
-                        </div>
-                        <div class="mobile-shapes">
-                            <div class="shape-icon-1"></div>
-                            <div class="shape-icon-2"></div>
-                            <div class="shape-icon-3"></div>
-                        </div>
-                    </main>
-                </div>
-            </div>
-
-        </div>
+  <!-- ======== LAYERS PANEL ======== -->
+  <div class="layers-panel" id="layersPanel">
+    <div class="layer-header">
+      <span>Layers</span>
+      <span style="font-weight:400; letter-spacing:0; text-transform:none; font-size:10px; color:#78716c;">14 items</span>
     </div>
+
+    <!-- Desktop Frame -->
+    <div class="layer-item active">
+      <div class="dot" style="background:#57534e"></div>
+      <span style="color:#d6d3d1; font-weight:500;">🖥 Desktop Frame — 1440×1024</span>
+    </div>
+
+    <!-- Background -->
+    <div class="layer-group">
+      <div class="layer-item">
+        <div class="dot" style="background:#f5f5f4"></div>
+        <span>BG / Background Putih</span>
+      </div>
+    </div>
+
+    <!-- Left Banner -->
+    <div class="layer-group">
+      <div class="layer-item">
+        <div class="dot" style="background:#1c1917"></div>
+        <span style="color:#d6d3d1; font-weight:500;">📌 Banner Section (Left)</span>
+      </div>
+      <div class="layer-group-2">
+        <div class="layer-item">
+          <div class="dot" style="background:#1c1917"></div>
+          <span>Banner BG / Dark Rectangle</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#44403c"></div>
+          <span>Pattern / Grid Dots</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#b91c1c"></div>
+          <span>Glow / Red Accent</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#f5f5f4"></div>
+          <span>Text / Heading Banner</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#a8a29e"></div>
+          <span>Text / Subheading Banner</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#78716c"></div>
+          <span>Icon Group / 3 Ikon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Form -->
+    <div class="layer-group">
+      <div class="layer-item">
+        <div class="dot" style="background:#fafaf9"></div>
+        <span style="color:#d6d3d1; font-weight:500;">📝 Form Section (Right)</span>
+      </div>
+      <div class="layer-group-2">
+        <div class="layer-item">
+          <div class="dot" style="background:#b91c1c"></div>
+          <span>Logo / App Name</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#1c1917"></div>
+          <span>Text / "Selamat Datang"</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#78716c"></div>
+          <span>Input / Email Field</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#78716c"></div>
+          <span>Input / Password Field</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#b91c1c"></div>
+          <span>Button / Login (Primary)</span>
+        </div>
+        <div class="layer-item">
+          <div class="dot" style="background:#f5f5f4"></div>
+          <span>Button / Register (Outline)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle Layers Button -->
+  <button class="toggle-layers" onclick="toggleLayers()" title="Toggle Layers">
+    <i data-lucide="layers" class="w-4 h-4"></i>
+  </button>
+
+  <!-- ======== DESAIN UTAMA ======== -->
+  <div style="width:100%; height:100%; display:flex; background:#ffffff;">
+
+    <!-- ====== KIRI: BANNER (60%) ====== -->
+    <div style="width:60%; height:100%; background:#0c0a09; position:relative; overflow:hidden;">
+
+      <!-- Banner BG Pattern -->
+      <div class="grid-dots" style="position:absolute; inset:0; opacity:0.5;"></div>
+
+      <!-- Red glow -->
+      <div style="position:absolute; width:500px; height:500px; background:radial-gradient(circle, rgba(185,28,28,0.2) 0%, transparent 70%); top:10%; left:20%;"></div>
+      <div style="position:absolute; width:300px; height:300px; background:radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%); bottom:15%; right:10%;"></div>
+
+      <!-- Content Banner -->
+      <div style="position:relative; z-index:10; height:100%; display:flex; flex-direction:column; justify-content:center; padding: 60px 70px;">
+
+        <!-- Label kecil -->
+        <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(185,28,28,0.15); border:1px solid rgba(185,28,28,0.25); border-radius:100px; padding:6px 16px; margin-bottom:32px; width:fit-content;">
+          <div style="width:6px; height:6px; background:#ef4444; border-radius:50%;"></div>
+          <span style="font-size:12px; font-weight:600; color:#fca5a5; letter-spacing:0.05em;">PLATFORM DESAIN #1</span>
+        </div>
+
+        <!-- Heading besar — Font Size 1: 48px -->
+        <h1 style="font-family:'Playfair Display',serif; font-size:48px; font-weight:400; color:#f5f5f4; line-height:1.15; margin-bottom:20px; max-width:520px;">
+          Wujudkan Ide<br>
+          <span style="color:#ef4444; font-style:italic;">Menjadi</span> Desain
+        </h1>
+
+        <!-- Subheading — Font Size 2: 16px -->
+        <p style="font-size:16px; color:#a8a29e; line-height:1.7; max-width:420px; margin-bottom:48px;">
+          Buat, kolaborasi, dan kembangkan desain interface secara real-time dengan tim kamu.
+        </p>
+
+        <!-- 3 Ikon Feature -->
+        <div style="display:flex; gap:20px;">
+          <!-- Ikon 1 -->
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
+            <div style="width:40px; height:40px; background:rgba(185,28,28,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+              <i data-lucide="pen-tool" style="width:18px; height:18px; color:#ef4444;"></i>
+            </div>
+            <div>
+              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Vector Tools</p>
+              <p style="font-size:11px; color:#78716c; margin-top:2px;">Presisi tinggi</p>
+            </div>
+          </div>
+
+          <!-- Ikon 2 -->
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
+            <div style="width:40px; height:40px; background:rgba(37,99,235,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+              <i data-lucide="users" style="width:18px; height:18px; color:#60a5fa;"></i>
+            </div>
+            <div>
+              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Kolaborasi</p>
+              <p style="font-size:11px; color:#78716c; margin-top:2px;">Real-time sync</p>
+            </div>
+          </div>
+
+          <!-- Ikon 3 -->
+          <div style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:16px 20px;">
+            <div style="width:40px; height:40px; background:rgba(22,163,74,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center;">
+              <i data-lucide="zap" style="width:18px; height:18px; color:#4ade80;"></i>
+            </div>
+            <div>
+              <p style="font-size:13px; font-weight:600; color:#e7e5e4;">Prototyping</p>
+              <p style="font-size:11px; color:#78716c; margin-top:2px;">Interaktif cepat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative geometric -->
+      <div style="position:absolute; bottom:40px; right:40px; width:120px; height:120px; border:1px solid rgba(255,255,255,0.06); border-radius:20px; transform:rotate(15deg);"></div>
+      <div style="position:absolute; bottom:70px; right:80px; width:80px; height:80px; border:1px solid rgba(185,28,28,0.15); border-radius:16px; transform:rotate(-10deg);"></div>
+    </div>
+
+    <!-- ====== KANAN: FORM (40%) ====== -->
+    <div style="width:40%; height:100%; background:#fafaf9; display:flex; flex-direction:column; justify-content:center; padding:60px 56px; position:relative;">
+
+      <!-- Subtle top accent line -->
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(to right, #b91c1c, #ef4444, #f87171);"></div>
+
+      <!-- App Name / Logo -->
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:48px;">
+        <div style="width:36px; height:36px; background:#b91c1c; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+          <i data-lucide="figma" style="width:18px; height:18px; color:#ffffff;"></i>
+        </div>
+        <span style="font-size:20px; font-weight:700; color:#1c1917; letter-spacing:-0.02em;">DesignFlow</span>
+      </div>
+
+      <!-- Heading -->
+      <h2 style="font-family:'Playfair Display',serif; font-size:32px; font-weight:400; color:#1c1917; margin-bottom:8px;">
+        Selamat Datang
+      </h2>
+      <p style="font-size:14px; color:#78716c; margin-bottom:36px;">
+        Masuk ke akun kamu untuk melanjutkan
+      </p>
+
+      <!-- Email Input -->
+      <div style="margin-bottom:18px;">
+        <label style="display:block; font-size:12px; font-weight:600; color:#57534e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Email</label>
+        <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:12px 16px; transition:border-color 0.2s;" onfocus="this.style.borderColor='#b91c1c'" onblur="this.style.borderColor='#e7e5e4'">
+          <i data-lucide="mail" style="width:16px; height:16px; color:#a8a29e; flex-shrink:0;"></i>
+          <span style="font-size:14px; color:#a8a29e;">nama@email.com</span>
+        </div>
+      </div>
+
+      <!-- Password Input -->
+      <div style="margin-bottom:24px;">
+        <label style="display:block; font-size:12px; font-weight:600; color:#57534e; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">Password</label>
+        <div style="display:flex; align-items:center; gap:10px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; padding:12px 16px;">
+          <i data-lucide="lock" style="width:16px; height:16px; color:#a8a29e; flex-shrink:0;"></i>
+          <span style="font-size:14px; color:#a8a29e;">••••••••</span>
+          <i data-lucide="eye-off" style="width:16px; height:16px; color:#a8a29e; margin-left:auto; cursor:pointer; flex-shrink:0;"></i>
+        </div>
+      </div>
+
+      <!-- Remember + Forgot -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:32px;">
+        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+          <div style="width:18px; height:18px; border:2px #d6d3d1 solid; border-radius:5px; display:flex; align-items:center; justify-content:center;">
+          </div>
+          <span style="font-size:13px; color:#78716c;">Ingat saya</span>
+        </label>
+        <a href="#" style="font-size:13px; color:#b91c1c; text-decoration:none; font-weight:500;">Lupa password?</a>
+      </div>
+
+      <!-- Tombol LOGIN — Warna 1: Merah -->
+      <button style="width:100%; padding:14px; background:#b91c1c; color:#ffffff; font-size:14px; font-weight:600; border:none; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 10px 25px -5px rgba(185,28,28,0.3); transition:all 0.2s; margin-bottom:14px;" onmouseover="this.style.background='#991b1b'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#b91c1c'; this.style.transform='translateY(0)'">
+        <i data-lucide="log-in" style="width:16px; height:16px;"></i>
+        Masuk / Login
+      </button>
+
+      <!-- Tombol REGISTER — Outline -->
+      <button style="width:100%; padding:14px; background:transparent; color:#1c1917; font-size:14px; font-weight:600; border:2px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s; margin-bottom:36px;" onmouseover="this.style.borderColor='#b91c1c'; this.style.color='#b91c1c'" onmouseout="this.style.borderColor='#e7e5e4'; this.style.color='#1c1917'">
+        <i data-lucide="user-plus" style="width:16px; height:16px;"></i>
+        Daftar / Register
+      </button>
+
+      <!-- Divider -->
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:28px;">
+        <div style="flex:1; height:1px; background:#e7e5e4;"></div>
+        <span style="font-size:12px; color:#a8a29e; text-transform:uppercase; letter-spacing:0.08em;">atau</span>
+        <div style="flex:1; height:1px; background:#e7e5e4;"></div>
+      </div>
+
+      <!-- Social login -->
+      <div style="display:flex; gap:12px;">
+        <button style="flex:1; padding:12px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#d6d3d1'" onmouseout="this.style.borderColor='#e7e5e4'">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          <span style="font-size:13px; font-weight:500; color:#57534e;">Google</span>
+        </button>
+        <button style="flex:1; padding:12px; background:#ffffff; border:1px solid #e7e5e4; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.borderColor='#d6d3d1'" onmouseout="this.style.borderColor='#e7e5e4'">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1c1917"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <span style="font-size:13px; font-weight:500; color:#57534e;">GitHub</span>
+        </button>
+      </div>
+
+      <!-- Footer text -->
+      <p style="text-align:center; font-size:12px; color:#a8a29e; margin-top:auto; padding-top:32px;">
+        © 2025 DesignFlow. Semua hak dilindungi.
+      </p>
+    </div>
+  </div>
+
+  <!-- Spesifikasi Badge -->
+  <div class="spec-badge">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <div style="width:8px; height:8px; background:#b91c1c; border-radius:3px;"></div>
+      <span style="font-size:11px; font-weight:600; color:#d6d3d1; font-family:monospace;">1440 × 1024</span>
+    </div>
+    <div style="width:1px; height:16px; background:rgba(255,255,255,0.1);"></div>
+    <span style="font-size:11px; color:#78716c;">Desktop Frame</span>
+    <div style="width:1px; height:16px; background:rgba(255,255,255,0.1);"></div>
+    <span style="font-size:11px; color:#78716c;">3 Warna · 2 Font · 3 Ikon</span>
+  </div>
+
+</div>
+
+<script>
+  lucide.createIcons();
+
+  function toggleLayers() {
+    const panel = document.getElementById('layersPanel');
+    panel.classList.toggle('hidden-panel');
+  }
+</script>
 
 </body>
 </html>
